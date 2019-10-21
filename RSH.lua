@@ -1,3 +1,8 @@
+-- Copyright 2019 Elham Aryanpur
+--
+-- This project is not for use to third party and projects made by other than
+-- Royal Studio.
+
 local RSH = {}
 json = require("lib.JSON")
 local open = io.open
