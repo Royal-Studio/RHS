@@ -52,7 +52,28 @@ local function Timer(amount)
     end
 end
 
+local function registerEvent(name, points)
+    name = name or "myEvent"
+    points = points or 100
+    DB = getDB()
+    if DB == nil then
+        DB = {}
+    end
+    if DB["Event"] == nil then
+        DB["Event"] = {}
+    end
+    DB["Event"][name] = points
+    write_file("db.db", json.encode(DB))
+end
+
+local function AddEventPoint(playerName, amount)
+    -- TODO
+    -- Here it will add points to player... or make player if it do not exist
+end
+
 RSH.Timer = Timer
 RSH.ReadFile = read_file
 RSH.WriteFile = write_file
+RSH.GetTime = getTime
+RSH.RegisterEvent = registerEvent
 return RSH
