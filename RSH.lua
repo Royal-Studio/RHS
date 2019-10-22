@@ -10,17 +10,6 @@ local Time = false
 local function getTime() return os.time() end
 
 
-function catch(what)
-    return what[1]
-end
-function try(what)
-    status, result = pcall(what[1])
-    if not status then
-       what[2](result)
-    end
-    return result
-end
-
 local function read_file(path)
     local file = open(path, "rb") -- r read mode and b binary mode
     if not file then return nil end
@@ -36,13 +25,31 @@ local function write_file(path, data)
     file:close()
 end
 
+function getDB()
+    Data = read_file("db.db")
+    if Data == nil then
+        Data = {}
+        Data["Time"] = os.time()
+        write_file("db.db", json.encode(Data))
+        return nil
+    else
+        Data = json.decode(Data)
+        Time = Data["Time"]
+        return Data
+    end
+end
+
 local function Timer(amount)
     amount = amount or false
     if amount == false then
+        Data = getDB()
         if os.time() <= Time then return false end
         if os.time() > Time then return true end
+    else
+        Data = getDB()
+        Data["Time"] = os.time() + amount
+        write_file("db.db", json.encode(Data))
     end
-    Time = os.time() + amount
 end
 
 RSH.Timer = Timer
