@@ -161,7 +161,39 @@ local function EditEvent(event, save)
     end
 end
 
+local function EditPlayer(name, save)
+    name = name or "Player"
+    save = save or false
 
+    DB = getDB()
+    if DB["Player"] == nil then
+        DB["Player"] = {}
+        DB["Player"][name] = {}
+    end
+    if DB["Player"][name] == nil then
+        DB["Player"][name] = {}
+    end
+
+    if save == false then
+
+        Data = {}
+        Data["name"] = name
+        Data["data"] = DB["Player"][name]
+        
+        return Data
+
+    else
+
+        DB = getDB()
+        if DB["Player"] == nil then
+            DB["Player"] = {}
+        end
+
+        DB["Player"][name["name"]] = name["data"]
+
+        write_file("db.db", json.encode(DB))
+    end
+end
 
 RSH.Timer = Timer
 RSH.ReadFile = read_file
