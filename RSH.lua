@@ -31,7 +31,7 @@ function getDB()
         Data = {}
         Data["Time"] = os.time()
         write_file("db.db", json.encode(Data))
-        return nil
+        return Data
     else
         Data = json.decode(Data)
         Time = Data["Time"]
@@ -85,14 +85,15 @@ local function AddEventPoint(eventName, playerName, amount)
         DB["Player"] = {}
     end
     if DB["Player"][playerName] == nil then
-        DB["Player"][playerName] = amount
+        DB["Player"][playerName] = {}
+        DB["Player"][playerName][eventName] = amount
     end
     
-    if DB["Player"][playerName] >= DB["Event"][eventName] then
+    if DB["Player"][playerName][eventName] >= DB["Event"][eventName] then
         write_file("db.db", json.encode(DB))
         return true
     else
-        DB["Player"][playerName] = DB["Player"][playerName] + amount
+        DB["Player"][playerName][eventName] = DB["Player"][playerName][eventName] + amount
         write_file("db.db", json.encode(DB))
         return false
     end
@@ -103,10 +104,64 @@ local function DeleteEvent(eventName)
     eventName = eventName or "myEvent"
 
     DB = getDB()
+    
+    if DB["Event"] == nil then
+        DB["Event"] = {}
+    end
+
     DB["Event"][eventName] = nil
 
     write_file("db.db", json.encode(DB))
 end
+
+local function DeletePlayer(playerName)
+    playerName = playerName or "Player"
+
+    DB = getDB()
+
+    if DB["Player"] == nil then
+        DB["Player"] = {}
+    end
+
+    DB["Player"][playerName] = nil
+
+    write_file("db.db", json.encode(DB))
+    
+end
+
+local function EditEvent(event, save)
+    save = save or false
+    event = event or "myEvent"
+
+    if save == false then
+        DB = getDB()
+        if DB["Event"] == nil then
+            DB["Event"] = {}
+        end
+
+        if DB["Event"][event] == nil then
+            DB["Event"][event] = 100
+        end
+
+        Data = {}
+        Data["name"] = event
+        Data["point"] = DB["Event"][event]
+
+        return Data
+    else
+        DB = getDB()
+
+        if DB["Event"] == nil then
+            DB["Event"] = {}
+        end
+        
+        DB["Event"][event["name"]] = event["point"]
+
+        write_file("db.db", json.encode(DB))
+    end
+end
+
+
 
 RSH.Timer = Timer
 RSH.ReadFile = read_file
@@ -115,4 +170,6 @@ RSH.GetTime = getTime
 RSH.RegisterEvent = registerEvent
 RSH.AddEventPoint = AddEventPoint
 RSH.DeleteEvent = DeleteEvent
+RSH.DeletePlayer = DeletePlayer
+RSH.EditEvent = EditEvent
 return RSH
