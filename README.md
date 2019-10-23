@@ -139,7 +139,7 @@ This function will add an amount of points to the player for a given event.
 
 If
 player's amount of point get bigger than the event's limit, it will not append
-points.
+points and return `true`. Otherwise it will return `false`.
 
 By default, it has eventName as `myEvent`, playerName as `Player` and amount as
 `100`
