@@ -66,9 +66,46 @@ local function registerEvent(name, points)
     write_file("db.db", json.encode(DB))
 end
 
-local function AddEventPoint(playerName, amount)
-    -- TODO
-    -- Here it will add points to player... or make player if it do not exist
+local function AddEventPoint(eventName, playerName, amount)
+    eventName = eventName or "myEvent"
+    playerName = playerName or "Player"
+    amount = amount or 100
+
+    DB = getDB()
+    if DB == nil then
+        DB = {}
+    end
+    if DB["Event"] == nil then
+        DB["Event"] = {}
+    end
+    if DB["Event"][eventName] == nil then
+        DB["Event"][eventName] = 100
+    end
+    if DB["Player"] == nil then
+        DB["Player"] = {}
+    end
+    if DB["Player"][playerName] == nil then
+        DB["Player"][playerName] = amount
+    end
+    
+    if DB["Player"][playerName] >= DB["Event"][eventName] then
+        write_file("db.db", json.encode(DB))
+        return true
+    else
+        DB["Player"][playerName] = DB["Player"][playerName] + amount
+        write_file("db.db", json.encode(DB))
+        return false
+    end
+
+end
+
+local function DeleteEvent(eventName)
+    eventName = eventName or "myEvent"
+
+    DB = getDB()
+    DB["Event"][eventName] = nil
+
+    write_file("db.db", json.encode(DB))
 end
 
 RSH.Timer = Timer
@@ -76,4 +113,6 @@ RSH.ReadFile = read_file
 RSH.WriteFile = write_file
 RSH.GetTime = getTime
 RSH.RegisterEvent = registerEvent
+RSH.AddEventPoint = AddEventPoint
+RSH.DeleteEvent = DeleteEvent
 return RSH

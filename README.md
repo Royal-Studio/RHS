@@ -109,4 +109,66 @@ data = "I am AWESOME!"
 RSH.WriteFile(path, data)
 ```
 
+#### Register Event
+
+```lua
+RSH.RegisterEvent(name, points)
+```
+
+This function is used to register an event with given amount of points. By
+default, if no parameter given, it will set an event by name of `myEvent` with
+amount of `100` points.
+
+Example below will register an event by name of `Bar` with amount of `5000`
+points:
+
+```lua
+name = "Bar"
+points = 5000
+
+RSH.RegisterEvent(name, points)
+```
+
+#### AddEventPoint
+
+```lua
+RSH.AddEventPoint(eventName, playerName, amount)
+```
+
+This function will add an amount of points to the player for a given event. 
+
+If
+player's amount of point get bigger than the event's limit, it will not append
+points.
+
+By default, it has eventName as `myEvent`, playerName as `Player` and amount as
+`100`
+
+Example below will give `500` points to player `Foo`
+
+```lua
+eventName = "Bar"
+playerName = "Foo"
+amount = 500
+
+RSH.AddEventPoint(eventName, playerName, amount)
+```
+
+#### Delete Event
+
+```lua
+RSH.DeleteEvent(eventName)
+```
+
+This function will delete a given event. By default, it will delete an event by
+name of `myEvent`.
+
+Following Example will delete the event `Bar` we recently made:
+
+```lua
+eventName = "Bar"
+
+RSH.DeleteEvent(eventName)
+```
+
 #### CURRENTLY THIS IS ALL IT HAS! MORE FEATURES WILL COME AS NEEDED
