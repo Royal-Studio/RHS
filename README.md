@@ -171,4 +171,130 @@ eventName = "Bar"
 RSH.DeleteEvent(eventName)
 ```
 
+#### Delete Player
+
+```lua
+RSH.DeletePlayer(playerName)
+```
+
+This function will delete a give player. By default, it will delete a player by
+name of `Player`.
+
+Following Example will delete the player `Foo` we recently made:
+
+```lua
+playerName = "Foo"
+
+RSH.DeletePlayer(playerName)
+```
+
+#### Edit Event
+
+```lua
+event = RSH.EditEvent(event, save)
+```
+
+This function, if second parameter is not given, will return a table containing
+`name` and `point`s of the event... so that you can adjust it.
+
+Once you are satisfied with the adjusment, you can call the function again, but
+this time having second parameter as `true`.
+
+The table have two keys:
+
+1. `name` - This is the name of event
+2. `point` - This is the amount of points assigned to event
+
+`NOTE: If name is adjusted, it will be saved as new event rather than replacing
+old one!`
+
+The following example will edit the points of the event `Bar` and assign it's
+points to value of `1000`:
+
+```lua
+eventName = "Bar"
+
+event = RSH.EditEvent(eventName)
+
+event["point"] = 1000
+
+RSH.EditEvent(event, true)
+```
+
+#### Edit Player
+
+```lua
+player = RSH.EditPlayer(player, save)
+```
+
+This function, if second parameter is not given, will return a table containing
+`name` and `data`s of the player... so that you can adjust it.
+
+Once you are satisfied with the adjusment, you can call the function again, but
+this time having second parameter as `true`.
+
+The table have two keys:
+
+1. `name` - This is the name of event
+2. `data` - This is the data table containing events the player has been given
+   to and amount of point the player recieved
+
+`NOTE: If name is adjusted, it will be saved as new player rather than replacing
+old one!`
+
+The following example will edit the points for the event `Bar` and assign it's
+points to value of `1000`:
+
+```lua
+playerName = "Foo"
+
+Player = RSH.EditPlayer(playerName)
+
+Player["data"]["Bar"] = 1000
+
+RSH.EditPlayer(Player, true)
+```
+
+#### Encode JSON
+
+```lua
+encodedTable = RSH.EncodeJSON(Table)
+```
+
+This function will return a parsed string version of a Table, Dictionary, JSON,
+...
+
+You can use this to save your JSON data on the disk, Database, ...
+
+Example below will make a `Table` and `print` it:
+
+```lua
+myTable = {}
+
+myTable["key"] = "value"
+
+encodedTable = RSH.EncodeJSON(myTable)
+
+print(encodedTable)
+```
+
+#### Decode JSON
+
+```lua
+decodedTable = RSH.DecodeJSON(JSON)
+```
+
+This function will turn `string JSON` into a `Table`. Useful when you want to
+use saved JSON from disk, database, ...
+
+Example below will make a `string JSON` and print it's `Table Value`:
+
+```lua
+myJSON = '{"key":"value"}'
+
+decodedJSON = RSH.DecodeJSON(myJSON)
+
+print(decodedJSON["key"])
+```
+
 #### CURRENTLY THIS IS ALL IT HAS! MORE FEATURES WILL COME AS NEEDED

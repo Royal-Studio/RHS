@@ -204,4 +204,7 @@ RSH.AddEventPoint = AddEventPoint
 RSH.DeleteEvent = DeleteEvent
 RSH.DeletePlayer = DeletePlayer
 RSH.EditEvent = EditEvent
+RSH.EditPlayer = EditPlayer
+RSH.EncodeJSON = json.encode
+RSH.DecodeJSON = json.decode
 return RSH
